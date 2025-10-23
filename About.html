@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ar">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>About — AHGame</title>
+  <style>
+    :root{--bg:#031026;--muted:#9bb0c8;--neon:#2be0ff}
+    body{margin:0;background:linear-gradient(180deg,#010310,#041227);color:#e6faff;font-family: "Segoe UI", Roboto, "Noto Naskh Arabic", sans-serif}
+    .wrap{max-width:900px;margin:36px auto;padding:18px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+    h1{margin:0;font-size:22px}
+    .muted{color:var(--muted);margin-top:8px}
+    .row{display:flex;gap:16px;align-items:center;margin-top:14px}
+    .logo{width:96px;height:96px;border-radius:12px;overflow:hidden}
+    .logo img{width:100%;height:100%;object-fit:cover}
+    .meta{flex:1}
+    .btn{margin-top:10px;padding:10px 14px;border-radius:10px;border:none;background:transparent;color:var(--neon);font-weight:700}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <h1>عن المطور — AHGame</h1>
+          <div class="muted">هوية المطور الرسمية على Google Play. هذه الصفحة تقدم نبذة عن المسيرة واهداف الفريق.</div>
+        </div>
+        <div>
+          <a href="index.html" style="color:var(--neon);font-weight:700">الصفحة الرئيسية ←</a>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="logo">
+          <!-- REPLACE: developer logo -->
+          <img src="AHGame_logo.png" alt="AHGame" onerror="this.style.background='#0b2033'">
+        </div>
+        <div class="meta">
+          <div style="font-weight:800">AHGame</div>
+          <div class="muted">بدايتنا: إصدار أول لعبة سباق بسيط سنة 2019. منذ ذلك الوقت، بنشتغل على ألعاب سباقات وتجارب صغيرة مرّكزة على الفيزياء واللعب الجماعي.</div>
+          <div style="margin-top:8px">
+            <strong>قيمة العمل:</strong> لعب ممتع، واجهة نظيفة، وتجربة متوازنة للاعبين على الموبايل.
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:16px" class="muted">
+        <div>تاريخ إنشاء أول لعبة: <strong>2019</strong></div>
+        <div style="margin-top:8px">أهداف مستقبلية: التوسع في طور الأونلاين، تحسين واجهات المستخدم، وتقديم محتوى يجذب اللاعبين العرب والعالميين.</div>
+      </div>
+
+      <div style="margin-top:18px">
+        <!-- NOTE: button goes to contact.html (user said they have it already) -->
+        <a class="btn" href="contact.html">تواصل معنا</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

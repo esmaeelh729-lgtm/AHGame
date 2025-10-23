@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تواصل معي</title>
+  <style>
+    body {
+      background-color: #0a0a0f;
+      font-family: 'Segoe UI', sans-serif;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      color: #00ffff;
+      margin-bottom: 20px;
+    }
+
+    form {
+      background-color: #111;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px #00ffff;
+      width: 300px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    input, textarea {
+      background-color: #1a1a1f;
+      border: 1px solid #00ffff;
+      color: white;
+      margin: 8px 0;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      box-shadow: 0 0 10px #00ffff;
+    }
+
+    button {
+      background-color: #00ffff;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      box-shadow: 0 0 10px #00ffff;
+    }
+
+    .status {
+      margin-top: 10px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .email-link {
+      color: #00ffff;
+      text-decoration: none;
+      font-size: 13px;
+      margin-top: 10px;
+      text-align: center;
+      display: block;
+      transition: 0.3s;
+    }
+
+    .email-link:hover {
+      text-shadow: 0 0 10px #00ffff;
+    }
+
+    .back-btn {
+      margin-top: 25px;
+      background-color: transparent;
+      border: 2px solid #00ffff;
+      color: #00ffff;
+      padding: 8px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .back-btn:hover {
+      background-color: #00ffff;
+      color: #000;
+      box-shadow: 0 0 10px #00ffff;
+    }
+  </style>
+</head>
+<body>
+  <h1>تواصل معي</h1>
+
+  <form id="contactForm">
+    <input type="text" id="name" placeholder="الاسم" required>
+    <input type="email" id="email" placeholder="البريد الإلكتروني" required>
+    <textarea id="message" placeholder="اكتب رسالتك هنا..." rows="4" required></textarea>
+    <button type="submit" id="sendButton">إرسال</button>
+    <div class="status" id="status"></div>
+    <a href="mailto:esmaeelh729@gmail.com" class="email-link">
+      لا تستطيع إرسال الرسالة أو تواجه مشكلة؟ أرسلها مباشرة عبر Email
+    </a>
+  </form>
+
+  <button class="back-btn" onclick="window.location.href='index.html'">عودة إلى الصفحة الرئيسية</button>
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    (function() {
+      emailjs.init("r2tjNzE8XqkqnD44a");
+    })();
+
+    const form = document.getElementById("contactForm");
+    const statusDiv = document.getElementById("status");
+    const sendButton = document.getElementById("sendButton");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const message = document.getElementById("message").value.trim();
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!name || !email || !message) {
+        statusDiv.textContent = "⚠️ من فضلك املأ جميع الخانات.";
+        statusDiv.style.color = "#ffcc00";
+        return;
+      }
+
+      if (!emailRegex.test(email)) {
+        statusDiv.textContent = "❌ البريد الإلكتروني غير صحيح.";
+        statusDiv.style.color = "red";
+        return;
+      }
+
+      statusDiv.textContent = "🔵 جاري إرسال الرسالة...";
+      statusDiv.style.color = "#00ffff";
+
+      try {
+        await emailjs.send("service_20e0wxb", "template_pk9uqek", {
+          from_name: name,
+          from_email: email,
+          message: message
+        });
+
+        statusDiv.textContent = "✅ تم إرسال الرسالة بنجاح!";
+        statusDiv.style.color = "#00ff99";
+        sendButton.disabled = true;
+        sendButton.style.opacity = "0.6";
+      } catch (error) {
+        statusDiv.textContent = "❌ حدث خطأ أثناء الإرسال. حاول مرة أخرى.";
+        statusDiv.style.color = "red";
+      }
+    });
+  </script>
+</body>
+</html>

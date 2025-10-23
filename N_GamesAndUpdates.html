@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AHGame — Games & Updates</title>
+  <style>
+    :root {
+      --bg:#010a18;
+      --card:#08182f;
+      --neon:#22d3ee;
+      --muted:#9dbbd1;
+      font-family: "Segoe UI", Roboto, "Noto Naskh Arabic", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top left, #001226, #00060f 70%);
+      color: #e6faff;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      background: #02142a;
+      border-bottom: 1px solid #032f4a;
+    }
+    header h1 {
+      font-size: 22px;
+      margin: 0;
+      color: var(--neon);
+    }
+    .back {
+      color: var(--neon);
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .wrap {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 0 16px;
+    }
+    .game {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 14px;
+      transition: transform .15s ease, box-shadow .15s ease;
+      cursor: pointer;
+    }
+    .game:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 12px rgba(34,211,238,0.2);
+    }
+    .thumb {
+      width: 140px;
+      height: 80px;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #0b2033;
+      flex-shrink: 0;
+    }
+    .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .info {
+      flex-grow: 1;
+    }
+    .info h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+    .muted {
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .status {
+      padding: 6px 10px;
+      border-radius: 10px;
+      font-weight: bold;
+      text-align: center;
+      min-width: 120px;
+    }
+    .st-published { background: linear-gradient(90deg,#0ff7d1,#3ae5ff); color:#00202a; }
+    .st-progress { background: linear-gradient(90deg,#ffd26b,#ff8b3a); color:#2b1600; }
+    .st-postponed { background: linear-gradient(90deg,#b3b8ff,#7aa0ff); color:#02102a; }
+    .st-canceled { background: linear-gradient(90deg,#ff8b8b,#ff5454); color:#2b0000; }
+
+    /* Modal */
+    .modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: #04162b;
+      border: 1px solid var(--neon);
+      border-radius: 12px;
+      padding: 24px;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 0 20px rgba(34,211,238,0.4);
+    }
+    .modal-content img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    .modal-content h2 {
+      color: var(--neon);
+      margin: 0 0 10px;
+    }
+    .modal-content p {
+      color: var(--muted);
+      margin: 6px 0;
+    }
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 16px;
+      color: var(--neon);
+      font-size: 22px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" class="back">← الرئيسية</a>
+    <h1>Games & Updates</h1>
+  </header>
+  <div class="wrap" id="games-list"></div>
+
+  <!-- Modal -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <span class="close" id="closeModal">&times;</span>
+      <img id="modalImg" src="">
+      <h2 id="modalTitle"></h2>
+      <p id="modalStatus"></p>
+      <p id="modalDesc"></p>
+      <p id="modalDate"></p>
+    </div>
+  </div>
+
+  <script>
+    async function loadGames() {
+      const res = await fetch('games.json');
+      const data = await res.json();
+      renderGames(data);
+    }
+
+    function renderGames(list) {
+      const container = document.getElementById('games-list');
+      container.innerHTML = '';
+      list.forEach(g => {
+        const game = document.createElement('div');
+        game.className = 'game';
+        game.innerHTML = `
+          <div class="thumb"><img src="${g.thumb}" alt="${g.title}"></div>
+          <div class="info">
+            <h2>${g.title}</h2>
+            <div class="muted">${g.description}</div>
+          </div>
+          <div class="status ${statusClass(g.status)}">${g.status} — ${translateStatus(g.status)}</div>
+        `;
+        game.addEventListener('click', ()=>showModal(g));
+        container.appendChild(game);
+      });
+    }
+
+    function statusClass(s) {
+      switch (s) {
+        case "Published": return "st-published";
+        case "in progress": return "st-progress";
+        case "postponed": return "st-postponed";
+        case "canceled": return "st-canceled";
+        default: return "";
+      }
+    }
+
+    function translateStatus(s) {
+      const dict = {
+        "Published": "منشورة",
+        "in progress": "قيد التطوير",
+        "postponed": "مؤجلة",
+        "canceled": "ملغاة"
+      };
+      return dict[s] || "";
+    }
+
+    function showModal(g) {
+      document.getElementById('modalImg').src = g.thumb;
+      document.getElementById('modalTitle').textContent = g.title;
+      document.getElementById('modalStatus').textContent = `Status: ${g.status} — ${translateStatus(g.status)}`;
+      document.getElementById('modalDesc').textContent = g.description;
+      document.getElementById('modalDate').textContent = `Planned Date: ${g.plannedDate}`;
+      document.getElementById('modal').style.display = 'flex';
+    }
+
+    document.getElementById('closeModal').onclick = () => {
+      document.getElementById('modal').style.display = 'none';
+    };
+    window.onclick = e => {
+      if (e.target === document.getElementById('modal')) {
+        document.getElementById('modal').style.display = 'none';
+      }
+    };
+
+    loadGames();
+  </script>
+</body>
+</html>
