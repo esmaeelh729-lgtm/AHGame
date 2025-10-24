@@ -172,6 +172,57 @@
       opacity: 0.8;
       background: rgba(0, 0, 0, 0.2);
     }
+    .social-icons img {
+      width: 32px;
+      height: 32px;
+      filter: invert(73%) sepia(98%) saturate(500%) hue-rotate(180deg);
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+
+   .social-icons img:hover {
+      transform: scale(1.2);
+      filter: invert(90%) sepia(100%) saturate(800%) hue-rotate(180deg);
+    }
+
+
+    /* الموبايل */
+    @media (max-width: 768px) {
+      header {
+        display: none;
+      }
+      .mobile-footer-nav {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 25px;
+        background: rgba(0, 0, 0, 0.7);
+        border-top: 1px solid #00eaff;
+        padding: 10px;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 200;
+      }
+      .mobile-footer-nav a {
+        color: #00eaff;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: bold;
+      }
+      .mobile-footer-nav a:hover {
+        color: #fff;
+      }
+      footer {
+        padding-bottom: 70px;
+      }
+    }
+
+    @media (min-width: 769px) {
+      .mobile-footer-nav {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
@@ -186,6 +237,7 @@
       <a href="N_GamesAndUpdates.html">Updates</a>
       <a href="About.html">About</a>
       <a href="contact.html">Contact Us</a>
+      <a href="https://play.google.com/store/apps/dev?id=6650553099744081194" target="_blank">Download</a>
     </nav>
   </header>
 
@@ -219,8 +271,28 @@
   </section>
 
   <footer>
+    <div class="social-icons">
+  <a href="https://play.google.com/store/apps/dev?id=6650553099744081194" target="_blank">
+    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/googleplay.svg" alt="Google Play">
+  </a>
+  <a href="https://www.youtube.com/channel/UC7Z3tWg_71PnGH64P91HRyQ" target="_blank">
+    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg" alt="YouTube">
+  </a>
+  <a href="https://www.upwork.com/freelancers/~0178b56c67257f7d1a?viewMode=1" target="_blank">
+    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/upwork.svg" alt="Upwork">
+  </a>
+</div>
+
     <p>© 2025 AHGame. جميع الحقوق محفوظة.</p>
   </footer>
+
+  <div class="mobile-footer-nav">
+    <a href="index.html">Home</a>
+    <a href="N_GamesAndUpdates.html">Updates</a>
+    <a href="About.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="https://play.google.com/store/apps/dev?id=YOUR_ID" target="_blank">Download</a>
+  </div>
 
   <script>
     function goToUpdates() {
